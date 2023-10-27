@@ -10,25 +10,30 @@ canvasContext.fillStyle = "green";
 
 let direction = 10;
 let startPoint = 10;
-let car = new Image();
-car.src = './carro.png';
+let carIndo = new Image();
+carIndo.src = './carro.png';
+let carVoltando = new Image();
+carVoltando.src = './carro2.png';
 
 let carOne = {
     x: 200,
     startPoint: (Math.random() * 600),
-    direction: 1
+    direction: 1,
+    variancia: 1
 };
 
 let carLast = {
     x: 100,
     startPoint: (Math.random() * 600),
-    direction: 1
+    direction: 1,
+    variancia: 1
 }
 
 let newCar = {
     x: 300,
     startPoint: (Math.random() * 600),
-    direction: -1
+    direction: 1,
+    variancia: 1
 }
 
 let cars = [carLast, carOne, newCar];
@@ -49,7 +54,22 @@ let cars = [carLast, carOne, newCar];
         }
 
         for (let i=0;i < cars.length; i++) {
-            canvasContext.drawImage(car, cars[i].startPoint, cars[i].x, carSize, carSize);
+            cars[i].variancia++
+            if (cars[i].direction == 1) {
+                if ((cars[i].variancia % 500) < 250) {
+                    canvasContext.drawImage(carIndo, cars[i].startPoint, cars[i].x++, carSize, carSize);
+                } else {
+                    canvasContext.drawImage(carIndo, cars[i].startPoint, cars[i].x--, carSize, carSize);
+                }
+            } else if (cars[i].direction == -1) {
+                if ((cars[i].variancia % 500) < 250) {
+                    canvasContext.drawImage(carVoltando, cars[i].startPoint, cars[i].x++, carSize, carSize);
+                } else {
+                    canvasContext.drawImage(carVoltando, cars[i].startPoint, cars[i].x--, carSize, carSize);
+                }
+            }
+        
+            //canvasContext.drawImage(car, cars[i].startPoint, cars[i].x, carSize, carSize);
             cars[i].startPoint = cars[i].startPoint + (cars[i].direction * gameState.speed);
 
             cars[i].startPoint = cars[i].startPoint + cars[i].direction;
@@ -74,15 +94,36 @@ let cars = [carLast, carOne, newCar];
 gameLoop();
 
 
+
 document.addEventListener('keydown', function(event) {
-    if (event.key == 'ArrowLeft') {
-        gameState.fps = gameState.fps * 2;
-    }
-    
-    if (event.key == 'ArrowRight') {
-        gameState.fps = gameState.fps / 2;
+    let escolha = document.getElementById('aviao').value
+    console.log(`${escolha} Escolha`)
+    switch (event.key) {
+        case 'ArrowLeft':
+            for (let c=0; c < cars.length; c++) {
+                cars[escolha].direction = -1
+            }
+            gameState.fps = gameState.fps * 2;
+            break;
+
+        case 'ArrowRight':
+            for (let c=0; c < cars.length; c++) {
+                cars[escolha].direction = 1
+            }
+            gameState.fps = gameState.fps / 2;
+            break;
+
+        /*
+        case 'ArrowUp':
+
+            break;
+        case 'ArrowDown':
+            
+            break;
+        */
     }
 
+    
     if (event.key == 'n') {
         let carDirectionDelta = (Math.random()*1);
         let carDirection = 1;
@@ -93,6 +134,7 @@ document.addEventListener('keydown', function(event) {
             x: (Math.random() * 600),
             startPoint: (Math.random() * 600),
             direction: carDirection,
+            variancia: 1
         }
         cars[cars.length] = arrivingCar;
     }
