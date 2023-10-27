@@ -11,9 +11,9 @@ canvasContext.fillStyle = "green";
 let direction = 10;
 let startPoint = 10;
 let carIndo = new Image();
-carIndo.src = './carro.png';
+carIndo.src = './aviao.png';
 let carVoltando = new Image();
-carVoltando.src = './carro2.png';
+carVoltando.src = './aviao2.png';
 
 let carOne = {
     x: 200,
@@ -92,9 +92,6 @@ let cars = [carLast, carOne, newCar];
         }
 }//, gameState.fps); 
 gameLoop();
-
-
-
 document.addEventListener('keydown', function(event) {
     let escolha = document.getElementById('aviao').value
     console.log(`${escolha} Escolha`)
@@ -139,4 +136,4 @@ document.addEventListener('keydown', function(event) {
         cars[cars.length] = arrivingCar;
     }
     console.log(event.key);
-})
+});
